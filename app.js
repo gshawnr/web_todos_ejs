@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const { createTodo, getTodos } = require("./models/todo");
+const { createTodo, getTodos } = require(__dirname + "/models/todo");
 
 const app = express();
 

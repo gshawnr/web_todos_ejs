@@ -1,4 +1,4 @@
-const db = require("../db");
+const db = require(__dirname + "../../db");
 
 const Todo = db.createModel("todo", {
   name: {
