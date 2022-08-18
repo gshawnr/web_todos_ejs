@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const { createTodo, getTodos } = require(__dirname + "/models/todo");
+const { createTodo, getTodos, deleteById } = require(__dirname +
+  "/models/todo");
 
 const app = express();
 
@@ -23,18 +24,25 @@ app.get("/work", async (req, res) => {
   res.render("work", { title: "Work", todos });
 });
 
-app.post("/", (req, res) => {
+app.post("/", async (req, res) => {
   const { newItem = null, button = null } = req.body;
 
   switch (button) {
     case "Work":
-      createTodo({ name: newItem, category: "work" });
+      await createTodo({ name: newItem, category: "work" });
       res.redirect("/work");
       break;
     default:
-      createTodo({ name: newItem, category: "general" });
+      await createTodo({ name: newItem, category: "general" });
       res.redirect("/");
   }
+});
+
+app.post("/delete/:category", async (req, res) => {
+  const category = req.params.category || null;
+  const root = category === "root" ? "/" : `/${category}`;
+  await deleteById(req.body.checkboxId);
+  res.redirect(root);
 });
 
 const PORT = process.env.PORT || 3000;

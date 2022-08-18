@@ -12,19 +12,21 @@
     </div>
 
     <div class="box">
-      <% todos.forEach(todo=> { %>
-        <div class="item">
-          <input type="checkbox">
-          <p>
-            <%= todo.name %>
-          </p>
-        </div>
-        <% }) %>
+      <form action="/delete/work" method="post">
+        <% todos.forEach(todo=> { %>
+          <div class="item">
+            <input type="checkbox" name="checkboxId" value="<%=todo.id%>" onchange="this.form.submit()">
+            <p>
+              <%= todo.name %>
+            </p>
+          </div>
+          <% }) %>
+      </form>
 
-          <form class="item" action="/" method="post">
-            <input type="text" name="newItem" placeholder="add new item" autocomplete="off" />
-            <button type="submit" name="button" value="<%=title%>">+</button>
-          </form>
+      <form class="item" action="/" method="post">
+        <input type="text" name="newItem" placeholder="add new item" autocomplete="off" />
+        <button type="submit" name="button" value="<%=title%>">+</button>
+      </form>
     </div>
 
   </body>

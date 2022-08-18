@@ -1,3 +1,5 @@
+const { isObjectIdOrHexString } = require("mongoose");
+
 const db = require(__dirname + "../../db");
 
 const Todo = db.createModel("todo", {
@@ -21,4 +23,8 @@ exports.createTodo = async (todo) => {
 
 exports.getTodos = async (filterObj = {}, projectionObj = []) => {
   return await Todo.find(filterObj, projectionObj);
+};
+
+exports.deleteById = async (id) => {
+  return await Todo.deleteOne({ _id: id });
 };
