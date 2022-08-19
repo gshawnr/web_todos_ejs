@@ -1,5 +1,3 @@
-const { isObjectIdOrHexString } = require("mongoose");
-
 const db = require(__dirname + "../../db");
 
 const Todo = db.createModel("todo", {
@@ -16,9 +14,13 @@ const Todo = db.createModel("todo", {
 });
 
 exports.createTodo = async (todo) => {
-  const todoObj = new Todo(todo);
-  await todoObj.save();
-  return todoObj;
+  try {
+    const todoObj = new Todo(todo);
+    await todoObj.save();
+    return todoObj;
+  } catch (err) {
+    throw new Error("Unable to create new todo: ", { cause: err });
+  }
 };
 
 exports.getTodos = async (filterObj = {}, projectionObj = []) => {
@@ -26,5 +28,9 @@ exports.getTodos = async (filterObj = {}, projectionObj = []) => {
 };
 
 exports.deleteById = async (id) => {
-  return await Todo.deleteOne({ _id: id });
+  try {
+    return await Todo.deleteOne({ _id: id });
+  } catch (err) {
+    throw new Error("Unable to delete todo: ", { cause: err });
+  }
 };

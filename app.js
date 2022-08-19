@@ -25,25 +25,33 @@ app.get("/work", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  const { newItem = null, button = null } = req.body;
+  try {
+    const { newItem = null, button = null } = req.body;
 
-  switch (button) {
-    case "Work":
-      await createTodo({ name: newItem, category: "work" });
-      res.redirect("/work");
-      break;
-    default:
-      await createTodo({ name: newItem, category: "general" });
-      res.redirect("/");
+    switch (button) {
+      case "Work":
+        await createTodo({ name: newItem, category: "work" });
+        res.redirect("/work");
+        break;
+      default:
+        await createTodo({ name: newItem, category: "general" });
+        res.redirect("/");
+    }
+  } catch (err) {
+    console.log("Error: unable to create new todo: ", err);
   }
 });
 
 app.post("/delete/:category", async (req, res) => {
-  const category = req.params.category || null;
-  const root = category === "root" ? "/" : `/${category}`;
-  await deleteById(req.body.checkboxId);
-  res.redirect(root);
+  try {
+    const category = req.params.category || null;
+    const root = category === "root" ? "/" : `/${category}`;
+    await deleteById(req.body.checkboxId);
+    res.redirect(root);
+  } catch (err) {
+    console.log("Error: unable to delete todo: ", err);
+  }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => `listening on port ${PORT}`);
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));
