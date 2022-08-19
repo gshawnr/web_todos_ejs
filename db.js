@@ -1,5 +1,4 @@
 const db = require("mongoose");
-require("dotenv").config();
 
 const url = "mongodb://localhost:27017/TodoDB";
 const onlineUrl = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_KEY}@gsr-mongo-cluster.kkuknqw.mongodb.net/TodoDB`;
