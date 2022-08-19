@@ -1,7 +1,6 @@
-const path = require("path");
 const db = require("mongoose");
 
-require("dotenv").config({ path: __dirname + "/.env" });
+require("dotenv").config();
 console.log("#########", process.env);
 
 const url = "mongodb://localhost:27017/TodoDB";
